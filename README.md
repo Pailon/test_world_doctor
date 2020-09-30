@@ -1,3 +1,80 @@
+## Тестовое задание от компании МирВрача
+
+## Задание
+Реализовать react компонент - живой поиск по странам.
+Интерфейс программы состоит из поля ввода, где пользователь может ввести название страны. 
+Под полем ввода список найденных стран. Рядом с полем выпадающий список со значениями 10, 
+20, 50 который регулирует вывод количества найденных стран в списке.
+Поиск осуществлять по англоязычному названию страны. 
+Поиск также должен возвращать результаты по частичному совпадению названия страны. 
+Поиск должен быть "живой", то есть при каждом вводе в поле ввода должен происходить 
+запрос на rest сервис https://restcountries.eu/rest/v2/all. <br/> 
+В момент загрузки данных необходимо показывать спинер 
+за место списка со странами.
+Для разработанного компонента необходимо написать тест.
+При разработке react компонентов можно использовать сторонние библиотеки.
+Дизайн не так важен.
+Проект с исходниками необходимо выложить на github.<br/> Плюсом будет публикация рабочей версии приложения в сети на одном из бесплатных хостингов.
+
+## Решение
+Для решения данной задачи было создано простое приложение при помощи create-react-app. Далее приложение было
+подготовлено к работе методом удаления некоторых лишних файлов. Так как это небольшое задание
+было принято решение не разбивать компонент на мелкие под компоненты и все задание выполено 
+в двух файлах CustomSelect и CustomSelect.test.
+
+## Процесс разработки
+В процессе изучения задания внимание пало на условие "При разработке react компонентов можно использовать сторонние библиотеки".
+Это сподвигло изначально обратиться к более простым методам решения. Первое чем я воспользовался это библиотека material-ui 
+в которой использовал компонент TextFiled и добавлял к нему метод AutoComplete.
+Это было крайне быстрое решение, но это решение не позволяло ограничивать список выводимых стран(по крайней мере я не понял как это возможно сделать)
+А так же TextFiled работал с уже полученными данными, а не получаемыми данными 
+в процессе ввода страны.<br/>
+Далее выбор пал на компонент Select с асинхронным получением данных, этот компонент практически полность
+выполнял данное задание, но опять же я не смог ограничить выпадающий список. Ограничивая его я урезал 
+список стран и появлялась ошибка, когда поиск не давал страну.<br/>
+Тем самым я пришел к самому логичному варианту - это написать полностью свой компонент
+поиска. Был создан input, а так же простой список ul в который динамически с помощью метода map создавались 
+li элементы с именем страны.<br/>
+Данные получались двумя методами. Для начала данные всех стран приходили в методе componentDitMount и отправлялись в компонент.
+Далее уже на поле ввода input было навешено событие onChange,срабатывающее в момент взаимодействия с компонентов
+(в нашем случае ввода данных). При срабатывании onChange метод handleChange получал
+данные введенные в input и делался запрос к выданному API. Одно из условий задания было делать 
+"живой" список стран, с запросом к API для поиска. Изначальная ссылка для этого не подошла, но
+изучив API в нем был найден метод поиска по имени GET /name/{name}. После этого решение
+было найдено.<br/>
+Однако так же был создан метод работающий только с данной ссылкой из задания, но уже 
+без постоянных запросов к API. Список стран получается при загрузке страницы
+и поиск осуществляется методом filter, который работает аналогично(получает name, фильтрует массив, возвращает новый массив, 
+происходит ререндер, отображаются искомые страны или страна)
+Решение отображения количества вариантов поиска решалась проще. Так как уже на уровне поиска возвращался необходимый массив
+была создана простая функция, которая брала первые n элементов из копии массива для поиска(копия исключала мутацию
+изначального массива). Число n указывалось по средству простого компонента select. 
+По умолчанию отображается по 10 стран. При выборе другого числа, происходит ререндер и отображается 
+выбранное число(20 или 50).
+В заключительном этапе был добавлен компонент Loader, так как этого требовало задание, но данные получаются достаточно быстро
+и увидеть компонент можно не часто(по крайней мере мне так кажется)
+
+
+ 
+
+## Необходимые условия для использования продукта
+Для запуска проекта необходимо иметь установленный NodeJS. 
+
+## Как установить программу
+Для установки необходимо: 
+- Скачать проект с GitHub(В случае получения проекта в виде архива, разархивировать архив) 
+- Открыть командную строку
+- При помощи стандартных команд перейти в каталог с файлами проекта
+- Написать в командной строке "npm run start"
+- Ожидать загрузки проекта
+
+
+## Контактная информация
+- E-mail: temonavto997@yandex.ru
+- Telegramm: @Pailon
+- VK: **[Игорь Степаненко](vk.com/id103480385)**
+- Linkedin: https://bit.ly/3kcJA5D
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
@@ -26,43 +103,3 @@ The build is minified and the filenames include the hashes.<br />
 Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify

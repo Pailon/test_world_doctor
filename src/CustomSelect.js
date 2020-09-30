@@ -56,16 +56,16 @@ export default class CustomSelect extends Component {
         return arr.slice(0, num)
     }
 
-    // searchCountry = (arr) =>{
-    //     const {name} = this.state
-    //     if(!name){
-    //         return arr
-    //     }
-    //     let mass = arr.concat()
-    //     return mass.filter((item)=>{
-    //         return item['name'].toLowerCase().includes(name.toLowerCase())
-    //     })
-    // }
+    searchCountry = (arr) =>{
+        const {name} = this.state
+        if(!name){
+            return arr
+        }
+        let mass = arr.concat()
+        return mass.filter((item)=>{
+            return item['name'].toLowerCase().includes(name.toLowerCase())
+        })
+    }
 
 
     render(){
